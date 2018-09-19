@@ -29,8 +29,7 @@ SOURCES += src/drive_widget.cpp \
 DISTFILES += \
     CMakeLists.txt
 
-FORMS += \
-    src/boat_parameters.ui
+FORMS += \ src/boat_parameters.ui
 
 HEADERS += \
     src/drive_widget.h \

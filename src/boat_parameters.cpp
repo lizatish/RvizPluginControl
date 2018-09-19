@@ -1,26 +1,25 @@
 #include "boat_parameters.h"
-
-//#include "ui_ugv_parameters.h"
+#include "ui_boat_parameters.h"
 
 Boat_parameters::Boat_parameters(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ugv_parameters)
+    ui(new Ui::Boat_parameters)
 {
     ui->setupUi(this);
     is_parameters_setted = false;
 }
 
-Boat_parameters::~ugv_parameters()
+Boat_parameters::~Boat_parameters()
 {
     delete ui;
 }
 
 void Boat_parameters::accept() {
     //Получаем параметры
-    boat_name = ui->ugv_name_lineEdit->text();
-    boat_gnss_topic_type = ui->ugv_gnss_type_comboBox->currentIndex() + 1;
-    boat_gnss_topic_name = ui->ugv_gnss_topic_lineEdit->text();
-    boat_battery_topic_name = ui->ugv_battery_topic_lineEdit->text();
+    boat_name = ui->boat_name_line->text();
+    boat_gnss_topic_type = ui->boat_gnss_type_comboBox->currentIndex() + 1;
+   boat_gnss_topic_name = ui->ugv_gnss_topic_lineEdit->text();
+//    boat_battery_topic_name = ui->ugv_battery_topic_lineEdit->text();
     is_parameters_setted = true;
     Q_EMIT editionFinished();
     this->close();
