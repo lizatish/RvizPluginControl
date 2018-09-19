@@ -105,20 +105,61 @@ DriveWidget::DriveWidget( QWidget* parent )
     main_layout->addLayout(stop_button_layout, 3, 0);
 
     setLayout( main_layout );
-}
 
+    connect( linear_slider, SIGNAL( valueChanged( int )), this, SLOT( setLinearData( int )));
+    connect( angular_slider, SIGNAL( valueChanged( int )), this, SLOT( setAngularData( int )));
+    connect( stop_button, SIGNAL( pressed()), this, SLOT( stopBoat()));
+    connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
+}
 
 void DriveWidget::paintEvent( QPaintEvent* event )
 {
     linear_speed_label->setNum(linear_velocity_);
     angular_speed_label->setNum(angular_velocity_);
-
-    connect( linear_slider, SIGNAL( valueChanged( int )), this, SLOT( setLinearData( int )));
-    connect( angular_slider, SIGNAL( valueChanged( int )), this, SLOT( setAngularData( int )));
-    connect( stop_button, SIGNAL( pressed()), this, SLOT( stopBoat()));
 }
 
+//Добавления нового объекта
+void DriveWidget::add_button_on_clicked() {
+    //Объект параметров платформы
+    ROS_INFO("HERE");
 
+    Boat_parameters *boat_parameters_= new Boat_parameters();
+    boat_list_.append(boat_parameters_);
+    //Подключаем добавление виджета в список
+    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
+    boat_parameters_->show();
+}
+
+void DriveWidget::add_boat_on_list() {
+    //    //Объект параметров платформы
+    //    ugv_parameters *ugv_parameters_ = ugv_list_.last();
+    //    //Добавляем в виджет
+    //    QTreeWidgetItem *new_item = new QTreeWidgetItem();
+    //    new_item->setText(0,ugv_parameters_->getUGVname());
+    //    new_item->setText(1, "Active; Autonomous mode; Battery 15%");
+    //    new_item->setTextColor(1,QColor(Qt::red));
+    //    ugv_list_for_widget_.append(new_item);
+    //    ugv_list_widget_->insertTopLevelItems(0, ugv_list_for_widget_);
+
+    //    //Запускаем узел
+    //    ugv_server_node *ros_node_ = new ugv_server_node();
+    //    //Передаём данные
+    //    ros_node_->setName(ugv_parameters_->getUGVname());
+    //    if(ugv_parameters_->getUGVtopicGNSStype() == 1)
+    //        ros_node_->setGNSSsubscriber(ugv_parameters_->getUGVtopicGNSSname(), ugv_server_node::nav_msgs_Odometry);
+    //    if(ugv_parameters_->getUGVtopicGNSStype() == 2)
+    //        ros_node_->setGNSSsubscriber(ugv_parameters_->getUGVtopicGNSSname(), ugv_server_node::sensor_msgs_NavSatFix);
+
+    //    QThread *ros_node_thread_ = new QThread;
+    //    ros_node_->moveToThread(ros_node_thread_);
+
+    //    connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
+    //    ////    connect(LaserScanner, SIGNAL(scanReady()), this, SLOT(laserScanProcessing()));
+    //    ////    connect(this, SIGNAL(stopROS()), LaserScanner, SLOT(stop()));
+    //    ros_node_thread_->start();
+    //    ros_node_list_.append(ros_node_);
+    //    ros_node_thread_list_.append(ros_node_thread_);
+}
 void DriveWidget::setLinearData( int linear_data )
 {
     linear_velocity_ = linear_data;

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QObject>
+#include <QMainWindow>
+
 
 namespace Ui {
 class Boat_parameters;
@@ -30,8 +32,6 @@ private:
     int boat_gnss_topic_type;
     //Имя топика
     QString boat_gnss_topic_name;
-    //Имя топика аккумулятора
-    QString boat_battery_topic_name;
 
     //Флаг, что параметры установлены
     bool is_parameters_setted;

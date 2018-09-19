@@ -6,8 +6,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rviz_plugin_control)
 find_package(catkin REQUIRED COMPONENTS rviz)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${rviz_plugin_control_SOURCE_DIR}/cmake)
+
+
+set (CMAKE_CXX_STANDARD 11)
+#find_package(libbz2 REQUIRED)
+#find_package(libz REQUIRED)
+#find_package(libexpat REQUIRED)
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 link_directories(${catkin_LIBRARY_DIRS})
 
 ## This setting causes Qt's "MOC" generation to happen automatically.
@@ -36,14 +45,25 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(SRC_FILES
   src/drive_widget.cpp
   src/teleop_panel.cpp
+  src/boat_parameters.cpp
 )
+
+qt5_wrap_cpp(
+  MOC_FILES
+  ${HEADER_FILES}
+)
+
+qt5_wrap_ui(UIC_FILES
+    src/boat_parameters.ui
+)
+
 
 ## An rviz plugin is just a shared library, so here we declare the
 ## library to be called ``${PROJECT_NAME}`` (which is
 ## "rviz_plugin_tutorials", or whatever your version of this project
 ## is called) and specify the list of source files we collected above
 ## in ``${SRC_FILES}``.
-add_library(${PROJECT_NAME} ${SRC_FILES})
+add_library(${PROJECT_NAME} ${SRC_FILES} ${MOC_FILES} ${UIC_FILES})
 
 ## Link the myviz executable with whatever Qt libraries have been defined by
 ## the ``find_package(Qt4 ...)`` line above, or by the

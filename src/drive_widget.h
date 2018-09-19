@@ -19,6 +19,9 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QComboBox>
+#include <ros/console.h>
+
+#include "boat_parameters.h"
 
 namespace rviz_plugin_control
 {
@@ -51,6 +54,7 @@ Q_SIGNALS:
 protected:
     // Лист всех лодок
     QComboBox* boats_list;
+    QList<Boat_parameters *> boat_list_;
 
     // Слайдеры для управления скоростями
     QLabel* linear_label;
@@ -94,6 +98,11 @@ private Q_SLOTS:
     void setLinearData( int linear_data);
     void setAngularData( int angular_data);
     void stopBoat();
+protected Q_SLOTS:
+    //Слот нажатия кнопки добавления объекта
+    void add_button_on_clicked();
+    void add_boat_on_list();
+
 };
 // END_TUTORIAL
 

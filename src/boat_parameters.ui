@@ -1,152 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Boat_parameters</class>
- <widget class="QMainWindow" name="Boat_parameters">
+ <widget class="QDialog" name="Boat_parameters">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>458</height>
+    <width>426</width>
+    <height>232</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Boat_parameters</string>
+   <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>220</y>
-      <width>186</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>OK</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>40</y>
-      <width>211</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="boat_name_label">
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="boat_colour_label">
-       <property name="text">
-        <string>Colour</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="boat_gnss_coordinates_topic_type">
-       <property name="text">
-        <string>GNSS coordinates topic type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="boat_gnss_topic">
-       <property name="text">
-        <string>GNSS topic</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="boat_number_label">
-       <property name="text">
-        <string>Number</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>40</y>
-      <width>196</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QLineEdit" name="boat_name_line"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLineEdit" name="boat_gnss_topic_line"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLineEdit" name="boat_colour_line"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLineEdit" name="boat_number_line"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QComboBox" name="boat_gnss_type_comboBox">
-       <item>
-        <property name="text">
-         <string>nav_msgs/Odometry</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>sensor_msgs/NavSatFix</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>731</width>
-     <height>22</height>
+     <x>70</x>
+     <y>180</y>
+     <width>341</width>
+     <height>32</height>
     </rect>
    </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>211</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="0">
+     <widget class="QLabel" name="boat_colour_label">
+      <property name="text">
+       <string>Colour</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="boat_gnss_coordinates_topic_type_label">
+      <property name="text">
+       <string>GNSS coordinates topic type</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="boat_gnss_topic">
+      <property name="text">
+       <string>GNSS topic</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="boat_number_label">
+      <property name="text">
+       <string>Number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="boat_name_label">
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>10</y>
+     <width>196</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QLineEdit" name="boat_name_line"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLineEdit" name="boat_gnss_topic_line"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLineEdit" name="boat_colour_line"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="boat_number_line"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QComboBox" name="boat_gnss_type_comboBox">
+      <item>
+       <property name="text">
+        <string>geometry_msgs/Twist</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Boat_parameters</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Boat_parameters</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

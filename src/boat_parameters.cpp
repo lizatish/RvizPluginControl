@@ -18,12 +18,12 @@ void Boat_parameters::accept() {
     //Получаем параметры
     boat_name = ui->boat_name_line->text();
     boat_gnss_topic_type = ui->boat_gnss_type_comboBox->currentIndex() + 1;
-   boat_gnss_topic_name = ui->ugv_gnss_topic_lineEdit->text();
-//    boat_battery_topic_name = ui->ugv_battery_topic_lineEdit->text();
+    boat_gnss_topic_name = ui->boat_gnss_topic_line->text();
     is_parameters_setted = true;
     Q_EMIT editionFinished();
     this->close();
 }
+
 
 QString Boat_parameters::getBoatName() {
     if(is_parameters_setted)
