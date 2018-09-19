@@ -23,14 +23,16 @@ INCLUDEPATH += ~/catkin_ws/devel/include
 
 #SOURCES += src/*.* \
 SOURCES += src/drive_widget.cpp \
-    src/teleop_panel.cpp
+    src/teleop_panel.cpp \
+    src/boat_parameters.cpp
 
 DISTFILES += \
     CMakeLists.txt
 
-#FORMS += \
-#    src/ugv_parameters.ui
+FORMS += \
+    src/boat_parameters.ui
 
 HEADERS += \
     src/drive_widget.h \
-    src/teleop_panel.h
+    src/teleop_panel.h \
+    src/boat_parameters.h

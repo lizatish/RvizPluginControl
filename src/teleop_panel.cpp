@@ -44,18 +44,6 @@
 namespace rviz_plugin_control
 {
 
-// BEGIN_TUTORIAL
-// Here is the implementation of the TeleopPanel class.  TeleopPanel
-// has these responsibilities:
-//
-// - Act as a container for GUI elements DriveWidget and QLineEdit.
-// - Publish command velocities 10 times per second (whether 0 or not).
-// - Saving and restoring internal state from a config file.
-//
-// We start with the constructor, doing the standard Qt thing of
-// passing the optional *parent* argument on to the superclass
-// constructor, and also zero-ing the velocities we will be
-// publishing.
 Control::Control( QWidget* parent )
   : rviz::Panel( parent )
   , linear_velocity_( 0 )
@@ -63,17 +51,17 @@ Control::Control( QWidget* parent )
 {
   // Next we lay out the "output topic" text entry field using a
   // QLabel and a QLineEdit in a QHBoxLayout.
-  QHBoxLayout* topic_layout = new QHBoxLayout;
-  topic_layout->addWidget( new QLabel( "Output Topic:" ));
+//  QHBoxLayout* topic_layout = new QHBoxLayout;
+//  topic_layout->addWidget( new QLabel( "Output Topic:" ));
   output_topic_editor_ = new QLineEdit;
-  topic_layout->addWidget( output_topic_editor_ );
+//  topic_layout->addWidget( output_topic_editor_ );
 
   // Then create the control widget.
   drive_widget_ = new DriveWidget;
 
   // Lay out the topic field above the control widget.
   QVBoxLayout* layout = new QVBoxLayout;
-  layout->addLayout( topic_layout );
+//  layout->addLayout( topic_layout );
   layout->addWidget( drive_widget_ );
   setLayout( layout );
 
