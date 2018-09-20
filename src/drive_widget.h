@@ -3,6 +3,7 @@
 #define DRIVE_WIDGET_H
 
 #include <QWidget>
+#include <QList>
 #include <stdio.h>
 #include <math.h>
 #include <QLineEdit>
@@ -20,8 +21,13 @@
 #include <QGridLayout>
 #include <QComboBox>
 #include <ros/console.h>
+#include <QMap>
+
+#include <iostream>
+using namespace std;
 
 #include "boat_parameters.h"
+#include "boat_server_node.h"
 
 namespace rviz_plugin_control
 {
@@ -38,9 +44,13 @@ Q_SIGNALS:
     // mouseMoveEvent() and mousePressEvent() need the same math to
     // figure the velocities, so I put that in here.
 protected:
-    // Лист всех лодок
-    QComboBox* boats_list;
+
+    //Список лодочек
+    QList<QTreeWidgetItem *> boat_list_for_widget_;
     QList<Boat_parameters *> boat_list_;
+
+    //Виджет списка платформ
+    QTreeWidget *boat_list_widget_;
 
     // Слайдеры для управления скоростями
     QLabel* angular_speed_label;
@@ -62,7 +72,11 @@ private Q_SLOTS:
 protected Q_SLOTS:
     //Слот нажатия кнопки добавления объекта
     void add_button_on_clicked();
+    void edit_button_on_clicked();
+    void remove_button_on_clicked();
     void add_boat_on_list();
+    void boat_list_item_clicked(QTreeWidgetItem* item, int col);
+
 
 };
 // END_TUTORIAL

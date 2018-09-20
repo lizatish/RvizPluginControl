@@ -46,6 +46,7 @@ set(SRC_FILES
   src/drive_widget.cpp
   src/teleop_panel.cpp
   src/boat_parameters.cpp
+  src/boat_server_node.cpp
 )
 
 qt5_wrap_cpp(

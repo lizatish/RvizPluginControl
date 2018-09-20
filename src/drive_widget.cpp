@@ -38,7 +38,7 @@ DriveWidget::DriveWidget( QWidget* parent )
     //******************** Лист с лодочками
 
     // Общий лист лодочек
-    QTreeWidget* boat_list_widget_ = new QTreeWidget();
+    boat_list_widget_ = new QTreeWidget();
     boat_list_widget_->setColumnCount(3);
     boat_list_widget_->setMaximumHeight(240);
 
@@ -110,6 +110,11 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( angular_slider, SIGNAL( valueChanged( int )), this, SLOT( setAngularData( int )));
     connect( stop_button, SIGNAL( pressed()), this, SLOT( stopBoat()));
     connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
+    connect( edit_button, SIGNAL( clicked()), this, SLOT(edit_button_on_clicked() ));
+    connect( remove_button, SIGNAL( clicked()), this, SLOT(remove_button_on_clicked() ));
+    connect(boat_list_widget_, &QTreeWidget::clicked, [](const QModelIndex &index) {
+         ROS_INFO("%d", index.row());
+    });
 }
 
 //Добавления нового объекта
@@ -121,17 +126,68 @@ void DriveWidget::add_button_on_clicked() {
     connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
     boat_parameters_->show();
 }
+//Добавления нового объекта
+void DriveWidget::remove_button_on_clicked() {
+
+    //    QString converter = boat_list_widget_->currentItem()-/;
+    //    int n = converter.toInt();
+    //   QTreeWidgetItem* remove_item =  boat_list_widget_->currentItem();
+    //   remove_item->i
+    //removeItemWidget(QTreeWidgetItem * item, int column)
+    //    int x = boat_list_widget_->currentItem()->columnCount();
+
+    //    ROS_INFO("%d", n);
+    //    boat_list_.append(boat_parameters_);
+    //    //Подключаем добавление виджета в список
+    //    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
+    //    boat_parameters_->show();
+}
+void DriveWidget::boat_list_item_clicked(QTreeWidgetItem*, int) {
+
+    //    QModelIndexList selected = boat_list_widget_->selectedIndexes();
+    ////    seslected.
+    ////        QTreeWidgetItem *item = selected.first();
+    ////        QTreeWidgetItem *parent = item->parent();
+    ////       int index;
+    ////        if(parent) {
+    ////            index = parent->indexOfChild(item);
+    ////            ROS_INFO("index   : %d", index);
+
+    ////            delete parent->takeChild(index);
+    ////        }
+
+    //    ROS_INFO(" 0 1 2 :   %d", selected);
+
+}
+
+//Добавления нового объекта
+void DriveWidget::edit_button_on_clicked() {
+    QTreeWidgetItem* edit_item = boat_list_widget_->currentItem();
+
+//    Boat_parameters* edit_boat_parameters = new Boat_parameters();
+//    cout << edit_item->text(0) << endl;
+//    edit_boat_parameters->show();
+
+
+    //    Boat_parameters *boat_parameters_= new Boat_parameters();
+    //    boat_list_.append(boat_parameters_);
+    //    //Подключаем добавление виджета в список
+    //    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
+    //    boat_parameters_->show();
+}
 
 void DriveWidget::add_boat_on_list() {
-    //    //Объект параметров платформы
-    //    ugv_parameters *ugv_parameters_ = ugv_list_.last();
-    //    //Добавляем в виджет
-    //    QTreeWidgetItem *new_item = new QTreeWidgetItem();
-    //    new_item->setText(0,ugv_parameters_->getUGVname());
-    //    new_item->setText(1, "Active; Autonomous mode; Battery 15%");
+    //Объект параметров платформы
+    Boat_parameters *boat_parameters_ = boat_list_.last();
+
+    //Добавляем в виджет
+    QTreeWidgetItem *new_item = new QTreeWidgetItem();
+    new_item->setText(0, boat_parameters_->getBoatName());
+    QString topic_type = boat_parameters_->getBoatTopicGNSSname();
+    new_item->setText(1, topic_type);
     //    new_item->setTextColor(1,QColor(Qt::red));
-    //    ugv_list_for_widget_.append(new_item);
-    //    ugv_list_widget_->insertTopLevelItems(0, ugv_list_for_widget_);
+    boat_list_for_widget_.append(new_item);
+    boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
 
     //    //Запускаем узел
     //    ugv_server_node *ros_node_ = new ugv_server_node();

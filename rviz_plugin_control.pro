@@ -21,9 +21,9 @@ INCLUDEPATH += ../../devel/include
 INCLUDEPATH += /liza/include
 INCLUDEPATH += ~/catkin_ws/devel/include
 
-#SOURCES += src/*.* \
 SOURCES += src/drive_widget.cpp \
-    src/boat_parameters.cpp
+    src/boat_parameters.cpp \
+    src/boat_server_node.cpp
 
 DISTFILES += \
     CMakeLists.txt
@@ -32,4 +32,5 @@ FORMS += \ src/boat_parameters.ui
 
 HEADERS += \
     src/drive_widget.h \
-    src/boat_parameters.h
+    src/boat_parameters.h \
+    src/boat_server_node.h
