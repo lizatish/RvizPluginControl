@@ -46,7 +46,7 @@ DriveWidget::DriveWidget( QWidget* parent )
 
     // Параметры листа
     boat_list_widget_->headerItem()->setText(0, "Number");
-    boat_list_widget_->headerItem()->setText(1, "Name");
+    boat_list_widget_->headerItem()->setText(1, "Topic");
     boat_list_widget_->headerItem()->setText(2, "Colour");
     boat_list_widget_->setMinimumHeight(50);
 
@@ -131,7 +131,16 @@ void DriveWidget::remove_button_on_clicked() {
     selectedItemIndex = index.row();
 
     if(selectedItemIndex >= 0){
-        boat_list_widget_->takeTopLevelItem(selectedItemIndex);
+        ROS_INFO("boat_list_for_widget_ size %d", boat_list_for_widget_.size());
+        ROS_INFO("boat_list_widget_ size %d", boat_list_widget_->size());
+        ROS_INFO("boat_list_ size %d", boat_list_.size());
+
+
+         QTreeWidgetItem* delete_item = boat_list_widget_->takeTopLevelItem(selectedItemIndex);
+         delete delete_item;
+
+         boat_list_for_widget_.removeAt(selectedItemIndex);
+        boat_list_.removeAt(selectedItemIndex);
     }
 }
 
@@ -157,7 +166,35 @@ void DriveWidget::add_boat_on_list() {
     new_item->setText(0, boat_parameters_->getBoatName());
     QString topic_type = boat_parameters_->getBoatTopicGNSSname();
     new_item->setText(1, topic_type);
-    //    new_item->setTextColor(1,QColor(Qt::red));
+    int boat_colour = boat_parameters_->getBoatColour();
+
+    switch(boat_colour){
+    case 1:
+        new_item->setBackground(2, Qt::red);
+        break;
+    case 2:
+        new_item->setBackground(2, Qt::green);
+        break;
+    case 3:
+        new_item->setBackground(2, Qt::blue);
+        break;
+    case 4:
+        new_item->setBackground(2, Qt::yellow);
+        break;
+    case 5:
+        new_item->setBackground(2, Qt::white);
+        break;
+    case 6:
+        new_item->setBackground(2, Qt::black);
+        break;
+    case 7:
+        new_item->setBackground(2, Qt::cyan);
+        break;
+    case 8:
+        new_item->setBackground(2, Qt::magenta);
+        break;
+    }
+
     boat_list_for_widget_.append(new_item);
     boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
 

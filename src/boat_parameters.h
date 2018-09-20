@@ -22,6 +22,7 @@ public:
     QString getBoatName();
     QString getBoatTopicGNSSname();
     int getBoatTopicGNSStype();
+    int getBoatColour() const;
 
 private:
     Ui::Boat_parameters *ui;
@@ -32,6 +33,8 @@ private:
     int boat_gnss_topic_type;
     //Имя топика
     QString boat_gnss_topic_name;
+    //Цвет лодки
+    int boat_colour;
 
     //Флаг, что параметры установлены
     bool is_parameters_setted;

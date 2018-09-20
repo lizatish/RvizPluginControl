@@ -20,6 +20,7 @@ void Boat_parameters::accept() {
     boat_gnss_topic_type = ui->boat_gnss_type_comboBox->currentIndex() + 1;
     boat_gnss_topic_name = ui->boat_gnss_topic_line->text();
     is_parameters_setted = true;
+    boat_colour = ui->boat_colour_comboBox->currentIndex() + 1;
     Q_EMIT editionFinished();
     this->close();
 }
@@ -38,4 +39,9 @@ QString Boat_parameters::getBoatTopicGNSSname() {
 int Boat_parameters::getBoatTopicGNSStype() {
     if(is_parameters_setted)
         return boat_gnss_topic_type;
+}
+
+int Boat_parameters::getBoatColour() const
+{
+    return boat_colour;
 }
