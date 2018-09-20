@@ -17,6 +17,7 @@ DriveWidget::DriveWidget( QWidget* parent )
     QGridLayout* stop_button_layout = new QGridLayout();
     QGridLayout* main_layout = new QGridLayout();
 
+    selectedItemIndex = NULL;
     //******************** Кнопки изменения листа с лодочками
 
     add_button = new QPushButton();
@@ -112,9 +113,6 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
     connect( edit_button, SIGNAL( clicked()), this, SLOT(edit_button_on_clicked() ));
     connect( remove_button, SIGNAL( clicked()), this, SLOT(remove_button_on_clicked() ));
-    connect(boat_list_widget_, &QTreeWidget::clicked, [](const QModelIndex &index) {
-         ROS_INFO("%d", index.row());
-    });
 }
 
 //Добавления нового объекта
@@ -142,38 +140,14 @@ void DriveWidget::remove_button_on_clicked() {
     //    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
     //    boat_parameters_->show();
 }
-void DriveWidget::boat_list_item_clicked(QTreeWidgetItem*, int) {
-
-    //    QModelIndexList selected = boat_list_widget_->selectedIndexes();
-    ////    seslected.
-    ////        QTreeWidgetItem *item = selected.first();
-    ////        QTreeWidgetItem *parent = item->parent();
-    ////       int index;
-    ////        if(parent) {
-    ////            index = parent->indexOfChild(item);
-    ////            ROS_INFO("index   : %d", index);
-
-    ////            delete parent->takeChild(index);
-    ////        }
-
-    //    ROS_INFO(" 0 1 2 :   %d", selected);
-
-}
 
 //Добавления нового объекта
 void DriveWidget::edit_button_on_clicked() {
-    QTreeWidgetItem* edit_item = boat_list_widget_->currentItem();
 
-//    Boat_parameters* edit_boat_parameters = new Boat_parameters();
-//    cout << edit_item->text(0) << endl;
-//    edit_boat_parameters->show();
+    QModelIndex index = boat_list_widget_->currentIndex();
+    selectedItemIndex = index.row();
 
-
-    //    Boat_parameters *boat_parameters_= new Boat_parameters();
-    //    boat_list_.append(boat_parameters_);
-    //    //Подключаем добавление виджета в список
-    //    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
-    //    boat_parameters_->show();
+    ROS_INFO("LIST CLICK %d", selectedItemIndex);
 }
 
 void DriveWidget::add_boat_on_list() {

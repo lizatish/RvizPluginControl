@@ -35,16 +35,14 @@ class DriveWidget: public QWidget
 {
     Q_OBJECT
 public:
-
     DriveWidget( QWidget* parent = 0 );
 
 Q_SIGNALS:
     void outputVelocity( float linear, float angular );
 
-    // mouseMoveEvent() and mousePressEvent() need the same math to
-    // figure the velocities, so I put that in here.
 protected:
 
+ int selectedItemIndex;
     //Список лодочек
     QList<QTreeWidgetItem *> boat_list_for_widget_;
     QList<Boat_parameters *> boat_list_;
@@ -59,25 +57,23 @@ protected:
     // Кнопки управления списком лодочек
     QPushButton* add_button;
 
-
     // Finally the member variables:
     float linear_velocity_; // In m/s
     float angular_velocity_; // In radians/s
     float linear_scale_; // In m/s
     float angular_scale_; // In radians/s
+
 private Q_SLOTS:
     void setLinearData( int linear_data);
     void setAngularData( int angular_data);
     void stopBoat();
 protected Q_SLOTS:
+
     //Слот нажатия кнопки добавления объекта
     void add_button_on_clicked();
     void edit_button_on_clicked();
     void remove_button_on_clicked();
     void add_boat_on_list();
-    void boat_list_item_clicked(QTreeWidgetItem* item, int col);
-
-
 };
 // END_TUTORIAL
 
