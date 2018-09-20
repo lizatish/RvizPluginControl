@@ -11,17 +11,17 @@ DriveWidget::DriveWidget( QWidget* parent )
     , linear_scale_( 10 )
     , angular_scale_( 2 )
 {
-    manager_buttons_layout = new QGridLayout();
-    controls_layout = new QGridLayout();
-    boat_tree_layout = new QGridLayout();
-    stop_button_layout = new QGridLayout();
-    main_layout = new QGridLayout();
+    QGridLayout* manager_buttons_layout = new QGridLayout();
+    QGridLayout* controls_layout = new QGridLayout();
+    QGridLayout* boat_tree_layout = new QGridLayout();
+    QGridLayout* stop_button_layout = new QGridLayout();
+    QGridLayout* main_layout = new QGridLayout();
 
     //******************** Кнопки изменения листа с лодочками
 
     add_button = new QPushButton();
-    edit_button = new QPushButton();
-    remove_button = new QPushButton();
+    QPushButton* edit_button = new QPushButton();
+    QPushButton* remove_button = new QPushButton();
 
     add_button->setText("Add");
     add_button->setMaximumWidth(100);
@@ -54,10 +54,10 @@ DriveWidget::DriveWidget( QWidget* parent )
     //******************** Слайдеры управления скоростями
 
     // Имя слайдеров
-    linear_label = new QLabel( "Linear" );
-    linear_slider = new QSlider( Qt::Vertical );
-    angular_label = new QLabel( "Angular" );
-    angular_slider = new QSlider( Qt::Horizontal );
+    QLabel* linear_label = new QLabel( "Linear" );
+    QSlider* linear_slider = new QSlider( Qt::Vertical );
+    QLabel* angular_label = new QLabel( "Angular" );
+    QSlider* angular_slider = new QSlider( Qt::Horizontal );
 
     // Предельные значения линейного слайдера
     linear_slider->setMinimum( -50 );
@@ -89,7 +89,7 @@ DriveWidget::DriveWidget( QWidget* parent )
 
     //******************** Стоп-кнопка
 
-    stop_button = new QPushButton();
+    QPushButton* stop_button = new QPushButton();
     stop_button->setStyleSheet("QPushButton {background-color: #FF0000; color: white;}");
     stop_button->setText("STOP");
     stop_button->setMaximumWidth(100);
@@ -112,16 +112,8 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
 }
 
-void DriveWidget::paintEvent( QPaintEvent* event )
-{
-    linear_speed_label->setNum(linear_velocity_);
-    angular_speed_label->setNum(angular_velocity_);
-}
-
 //Добавления нового объекта
 void DriveWidget::add_button_on_clicked() {
-    //Объект параметров платформы
-    ROS_INFO("HERE");
 
     Boat_parameters *boat_parameters_= new Boat_parameters();
     boat_list_.append(boat_parameters_);
@@ -162,28 +154,20 @@ void DriveWidget::add_boat_on_list() {
 }
 void DriveWidget::setLinearData( int linear_data )
 {
+    linear_speed_label->setNum(linear_data);
     linear_velocity_ = linear_data;
     Q_EMIT outputVelocity( linear_velocity_, angular_velocity_ );
     update();
 }
 void DriveWidget::setAngularData( int angular_data )
 {
+    angular_speed_label->setNum(angular_data);
     angular_velocity_ = angular_data;
     Q_EMIT outputVelocity( linear_velocity_, angular_velocity_ );
     update();
 }
 
-void DriveWidget::leaveEvent( QEvent* event )
-{
-    stop();
-}
-
-void DriveWidget::stopBoat(){
-    stop();
-}
-
-
-void DriveWidget::stop()
+void DriveWidget::stopBoat()
 {
     linear_velocity_ = 0;
     angular_velocity_ = 0;
