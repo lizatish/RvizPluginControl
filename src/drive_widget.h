@@ -74,8 +74,6 @@ protected Q_SLOTS:
     void edit_button_on_clicked();
     void remove_button_on_clicked();
     void add_boat_on_list();
-
-    void abs(QTreeWidgetItem*, int);
 };
 // END_TUTORIAL
 

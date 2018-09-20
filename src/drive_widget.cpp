@@ -114,8 +114,6 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
     connect( edit_button, SIGNAL( clicked()), this, SLOT(edit_button_on_clicked() ));
     connect( remove_button, SIGNAL( clicked()), this, SLOT(remove_button_on_clicked() ));
-    connect( boat_list_widget_, SIGNAL( itemClicked(QTreeWidgetItem*,int)), this, SLOT(abs(QTreeWidgetItem*, int) ));
-
 }
 
 //Добавления нового объекта
@@ -133,25 +131,11 @@ void DriveWidget::remove_button_on_clicked() {
     selectedItemIndex = index.row();
 
     if(selectedItemIndex >= 0){
-//        boat_list_widget_->rem
+        boat_list_widget_->takeTopLevelItem(selectedItemIndex);
     }
-    //    QString converter = boat_list_widget_->currentItem()-/;
-    //    int n = converter.toInt();
-    //   QTreeWidgetItem* remove_item =  boat_list_widget_->currentItem();
-    //   remove_item->i
-    //removeItemWidget(QTreeWidgetItem * item, int column)
-    //    int x = boat_list_widget_->currentItem()->columnCount();
-
-    //    ROS_INFO("%d", n);
-    //    boat_list_.append(boat_parameters_);
-    //    //Подключаем добавление виджета в список
-    //    connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
-    //    boat_parameters_->show();
 }
 
-void abs(QTreeWidgetItem* , int number){
-    ROS_INFO("%d", number);
-}
+
 //Добавления нового объекта
 void DriveWidget::edit_button_on_clicked() {
 

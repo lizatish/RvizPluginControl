@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>232</height>
+    <width>425</width>
+    <height>182</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>180</y>
+     <y>140</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -35,25 +35,25 @@
      <x>10</x>
      <y>10</y>
      <width>211</width>
-     <height>151</height>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="boat_colour_label">
       <property name="text">
        <string>Colour</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="boat_gnss_coordinates_topic_type_label">
       <property name="text">
        <string>GNSS coordinates topic type</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="boat_gnss_topic">
       <property name="text">
        <string>GNSS topic</string>
@@ -67,42 +67,76 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="boat_name_label">
-      <property name="text">
-       <string>Name</string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>225</x>
      <y>10</y>
-     <width>196</width>
-     <height>151</height>
+     <width>191</width>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <widget class="QLineEdit" name="boat_name_line"/>
     </item>
-    <item row="4" column="0">
+    <item row="3" column="0">
      <widget class="QLineEdit" name="boat_gnss_topic_line"/>
     </item>
     <item row="2" column="0">
-     <widget class="QLineEdit" name="boat_colour_line"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLineEdit" name="boat_number_line"/>
-    </item>
-    <item row="3" column="0">
      <widget class="QComboBox" name="boat_gnss_type_comboBox">
       <item>
        <property name="text">
         <string>geometry_msgs/Twist</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QComboBox" name="boat_colour_comboBox">
+      <item>
+       <property name="text">
+        <string>Red</string>
+       </property>
+       <property name="icon">
+        <iconset theme="red"/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Green</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Blue</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Yellow</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>White</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Black</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Orange</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Pink</string>
        </property>
       </item>
      </widget>
