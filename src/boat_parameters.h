@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMainWindow>
 
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class Boat_parameters;
@@ -23,6 +24,8 @@ public:
     QString getBoatTopicGNSSname();
     int getBoatTopicGNSStype();
     int getBoatColour() const;
+
+    void setParametrsFromItem(QTreeWidgetItem* init_item);
 
 private:
     Ui::Boat_parameters *ui;
@@ -44,6 +47,6 @@ protected:
 
 Q_SIGNALS:
     void editionFinished();
-};
+    void editFinished(const Boat_parameters*);};
 
 #endif // BOAT_PARAMETERS_H

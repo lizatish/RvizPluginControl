@@ -42,13 +42,15 @@ Q_SIGNALS:
 
 protected:
 
- int selectedItemIndex;
+ int currentItemIndex;
     //Список лодочек
     QList<QTreeWidgetItem *> boat_list_for_widget_;
     QList<Boat_parameters *> boat_list_;
 
     //Виджет списка платформ
     QTreeWidget *boat_list_widget_;
+
+    QTreeWidgetItem * currentItem;
 
     // Слайдеры для управления скоростями
     QLabel* angular_speed_label;
@@ -74,6 +76,10 @@ protected Q_SLOTS:
     void edit_button_on_clicked();
     void remove_button_on_clicked();
     void add_boat_on_list();
+//    void edit_boat_on_list(Boat_parameters*);
+    void edit_boat_on_list();
+
+
 };
 // END_TUTORIAL
 
