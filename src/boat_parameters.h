@@ -5,6 +5,9 @@
 #include <QObject>
 #include <QMainWindow>
 
+#include <iostream>
+using namespace std;
+
 #include <QTreeWidgetItem>
 
 namespace Ui {
@@ -47,6 +50,6 @@ protected:
 
 Q_SIGNALS:
     void editionFinished();
-    void editFinished(const Boat_parameters*);};
+};
 
 #endif // BOAT_PARAMETERS_H

@@ -148,16 +148,13 @@ void DriveWidget::edit_button_on_clicked() {
     Boat_parameters* boat_parameters_ = new Boat_parameters();
     currentItem = boat_list_widget_->currentItem();
 
-
     if(currentItemIndex >= 0){
-
-        //Подключаем добавление виджета в список
-        connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(edit_boat_on_list()));
 
         boat_parameters_->setParametrsFromItem(currentItem);
         boat_parameters_->show();
 
-
+        //Подключаем добавление виджета в список
+        connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(edit_boat_on_list()));
     }
 }
 
@@ -167,17 +164,14 @@ void DriveWidget::edit_boat_on_list() {
     QWidget* k =  qobject_cast<QWidget*>(n);
     Boat_parameters* boat_parameters_ = (Boat_parameters*)(k);
 
-    QTreeWidgetItem* edit_item = currentItem;
-
-    //        boat_list_.takeAt(currentItemIndex);
-    //        boat_list_for_widget_.takeAt(currentItemIndex);
+    QTreeWidgetItem* edit_item = new QTreeWidgetItem();
 
     //Добавляем в виджет
     edit_item->setText(0, boat_parameters_->getBoatName());
     QString topic_type = boat_parameters_->getBoatTopicGNSSname();
     edit_item->setText(1, topic_type);
-    int boat_colour = boat_parameters_->getBoatColour();
 
+    int boat_colour = boat_parameters_->getBoatColour();
     switch(boat_colour){
     case 1:
         edit_item->setBackground(2, Qt::red);
@@ -201,12 +195,9 @@ void DriveWidget::edit_boat_on_list() {
         edit_item->setBackground(2, Qt::magenta);
         break;
     }
-    //        boat_list_.insert(currentItemIndex, boat_parameters_);
-    //        boat_list_for_widget_.insert(currentItemIndex, edit_item);
-    //        boat_list_widget_->insertTopLevelItems(currentItemIndex, boat_list_for_widget_);
 
-//    ROS_INFO("col %d", l->getBoatColour());
-    boat_list_widget_->editItem(edit_item, currentItemIndex);
+    boat_list_widget_->takeTopLevelItem(currentItemIndex);
+    boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
 }
 
 void DriveWidget::add_boat_on_list() {
@@ -218,8 +209,9 @@ void DriveWidget::add_boat_on_list() {
     new_item->setText(0, boat_parameters_->getBoatName());
     QString topic_type = boat_parameters_->getBoatTopicGNSSname();
     new_item->setText(1, topic_type);
-    int boat_colour = boat_parameters_->getBoatColour();
 
+    int boat_colour = boat_parameters_->getBoatColour();
+    ROS_INFO("!!!!!!!!!! %d", boat_colour);
     switch(boat_colour){
     case 1:
         new_item->setBackground(2, Qt::red);
