@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>425</width>
-    <height>182</height>
+    <width>419</width>
+    <height>280</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,45 +95,26 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QComboBox" name="boat_colour_comboBox">
-      <item>
-       <property name="text">
-        <string>Red</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Green</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Blue</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Yellow</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Black</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Light-blue</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pink</string>
-       </property>
-      </item>
+     <widget class="QPushButton" name="boat_colour_button">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QComboBox" name="boat_colour_comboBox">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>200</y>
+     <width>86</width>
+     <height>25</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

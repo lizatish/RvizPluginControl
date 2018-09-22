@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <QObject>
 #include <QMainWindow>
+#include <QColorDialog>
+#include <QDebug>
+
 
 #include <iostream>
 using namespace std;
@@ -50,6 +53,8 @@ protected:
 
 Q_SIGNALS:
     void editionFinished();
+private Q_SLOTS:
+    void on_boat_colour_button_clicked();
 };
 
 #endif // BOAT_PARAMETERS_H

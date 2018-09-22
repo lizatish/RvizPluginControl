@@ -65,6 +65,7 @@ qt5_wrap_ui(UIC_FILES
 ## is called) and specify the list of source files we collected above
 ## in ``${SRC_FILES}``.
 add_library(${PROJECT_NAME} ${SRC_FILES} ${MOC_FILES} ${UIC_FILES})
+add_definitions(-DQT_NO_KEYWORDS)
 
 ## Link the myviz executable with whatever Qt libraries have been defined by
 ## the ``find_package(Qt4 ...)`` line above, or by the
