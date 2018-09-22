@@ -36,6 +36,7 @@ class DriveWidget: public QWidget
     Q_OBJECT
 public:
     DriveWidget( QWidget* parent = 0 );
+    ~DriveWidget();
 
 Q_SIGNALS:
     void outputVelocity( float linear, float angular );
@@ -49,8 +50,6 @@ protected:
 
     //Виджет списка платформ
     QTreeWidget *boat_list_widget_;
-
-    QTreeWidgetItem * currentItem;
 
     // Слайдеры для управления скоростями
     QLabel* angular_speed_label;
@@ -77,7 +76,7 @@ protected Q_SLOTS:
     void remove_button_on_clicked();
     void add_boat_on_list();
 //    void edit_boat_on_list(Boat_parameters*);
-    void edit_boat_on_list();
+    void edit_boat_to_boat_list();
 
 
 };

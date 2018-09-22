@@ -115,8 +115,16 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( edit_button, SIGNAL( clicked()), this, SLOT(edit_button_on_clicked() ));
     connect( remove_button, SIGNAL( clicked()), this, SLOT(remove_button_on_clicked() ));
 }
+DriveWidget::~DriveWidget(){
+    //    delete boat_list_for_widget_ [];
+    //    delete boat_list_ [];
+    delete boat_list_widget_;
+    delete angular_speed_label;
+    delete linear_speed_label;
+    delete add_button;
+}
 
-//Добавления нового объекта
+// Добавления нового объекта
 void DriveWidget::add_button_on_clicked() {
 
     Boat_parameters* boat_parameters_= new Boat_parameters();
@@ -125,40 +133,37 @@ void DriveWidget::add_button_on_clicked() {
     connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(add_boat_on_list() ));
     boat_parameters_->show();
 }
-//Добавления нового объекта
+
+// Удаление выбранного объекта
 void DriveWidget::remove_button_on_clicked() {
-    QModelIndex index = boat_list_widget_->currentIndex();
-    currentItemIndex = index.row();
+
+    currentItemIndex = boat_list_widget_->currentIndex().row();
 
     if(currentItemIndex >= 0){
-        QTreeWidgetItem* delete_item = boat_list_widget_->takeTopLevelItem(currentItemIndex);
-        delete delete_item;
-
+//        boat_list_widget_->removeItemWidget(boat_list_widget_->currentItem(), currentItemIndex);
+        delete boat_list_widget_->takeTopLevelItem(currentItemIndex);
         boat_list_for_widget_.removeAt(currentItemIndex);
         boat_list_.removeAt(currentItemIndex);
     }
 }
 
-
-//Добавления нового объекта
+// Редактирование выбранного объекта
 void DriveWidget::edit_button_on_clicked() {
 
-    QModelIndex index = boat_list_widget_->currentIndex();
-    currentItemIndex = index.row();
+    currentItemIndex = boat_list_widget_->currentIndex().row();
     Boat_parameters* boat_parameters_ = new Boat_parameters();
-    currentItem = boat_list_widget_->currentItem();
 
     if(currentItemIndex >= 0){
 
-        boat_parameters_->setParametrsFromItem(currentItem);
+        boat_parameters_->setParametrsFromItem(boat_list_widget_->currentItem());
         boat_parameters_->show();
 
         //Подключаем добавление виджета в список
-        connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(edit_boat_on_list()));
+        connect(boat_parameters_, SIGNAL(editionFinished()), this, SLOT(edit_boat_to_boat_list()));
     }
 }
 
-void DriveWidget::edit_boat_on_list() {
+void DriveWidget::edit_boat_to_boat_list() {
     sender()->setObjectName("Boat_parameters");
     QObject* n = sender();
     QWidget* k =  qobject_cast<QWidget*>(n);
@@ -173,6 +178,7 @@ void DriveWidget::edit_boat_on_list() {
 
     boat_list_widget_->takeTopLevelItem(currentItemIndex);
     boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
+    boat_list_widget_->setCurrentItem(boat_list_widget_->topLevelItem(currentItemIndex));
 }
 
 void DriveWidget::add_boat_on_list() {
