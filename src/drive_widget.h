@@ -65,6 +65,8 @@ protected Q_SLOTS:
     void remove_button_on_clicked();
     void add_boat_on_list();
     void edit_boat_to_boat_list();
+    void set_current_item();
+    void stopBoat();
 };
 
 // END_TUTORIAL

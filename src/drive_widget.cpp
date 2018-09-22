@@ -111,6 +111,8 @@ DriveWidget::DriveWidget( QWidget* parent )
     connect( add_button, SIGNAL( clicked()), this, SLOT(add_button_on_clicked() ));
     connect( edit_button, SIGNAL( clicked()), this, SLOT(edit_button_on_clicked() ));
     connect( remove_button, SIGNAL( clicked()), this, SLOT(remove_button_on_clicked() ));
+    connect( boat_list_widget_, SIGNAL( itemClicked(QTreeWidgetItem*, int)), this, SLOT(set_current_item()));
+
 }
 DriveWidget::~DriveWidget(){
     //    delete boat_list_for_widget_ [];
@@ -133,9 +135,6 @@ void DriveWidget::add_button_on_clicked() {
 
 // Удаление выбранного объекта
 void DriveWidget::remove_button_on_clicked() {
-
-    currentItemIndex = boat_list_widget_->currentIndex().row();
-
     if(currentItemIndex >= 0){
         delete boat_list_widget_->takeTopLevelItem(currentItemIndex);
         boat_list_for_widget_.removeAt(currentItemIndex);
@@ -145,12 +144,8 @@ void DriveWidget::remove_button_on_clicked() {
 
 // Редактирование выбранного объекта
 void DriveWidget::edit_button_on_clicked() {
-
-    currentItemIndex = boat_list_widget_->currentIndex().row();
-    Boat_parameters* boat_parameters_ = new Boat_parameters();
-
     if(currentItemIndex >= 0){
-
+        Boat_parameters* boat_parameters_ = new Boat_parameters();
         boat_parameters_->setParametrsFromItem(boat_list_widget_->currentItem());
         boat_parameters_->show();
 
@@ -160,11 +155,8 @@ void DriveWidget::edit_button_on_clicked() {
 }
 
 void DriveWidget::edit_boat_to_boat_list() {
-    sender()->setObjectName("Boat_parameters");
-    QObject* n = sender();
-    QWidget* k =  qobject_cast<QWidget*>(n);
-    Boat_parameters* boat_parameters_ = (Boat_parameters*)(k);
 
+    Boat_parameters* boat_parameters_ = (Boat_parameters*)qobject_cast<QWidget*>(sender());
     QTreeWidgetItem* edit_item = new QTreeWidgetItem();
 
     //Добавляем в виджет
@@ -219,8 +211,16 @@ void DriveWidget::setAngularData( int angular_data )
     angular_speed_label->setNum(angular_data);
     angular_velocity_ = angular_data;
 
-    ros_node_list_.
+    ros_node_list_.takeAt(currentItemIndex);
     update();
+}
+
+void DriveWidget::stopBoat(){
+
+}
+
+void DriveWidget::set_current_item(){
+    currentItemIndex = boat_list_widget_->currentIndex().row();
 }
 
 void DriveWidget::save( rviz::Config config ) const
