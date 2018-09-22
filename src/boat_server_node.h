@@ -5,10 +5,13 @@
 #include <QString>
 
 #include <string>
+#include <iostream>
+using namespace std;
 
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <visualization_msgs/Marker.h>
+
 
 class Boat_server_node : public QObject
 {
@@ -22,14 +25,16 @@ public:
     void setName(QString name) {
         node_name_ = name;
     }
-    void setGNSSsubscriber(QString topic, topicType topic_type) {
+    void setGNSSpublisher(QString topic, topicType topic_type) {
         gnss_topic_name_ = topic;
-        gnss_topic_type_ = topic_type;//topic_type;
+        gnss_topic_type_ = topic_type;
     }
     void setFrame(QString frame_id) {
         node_frame_ = frame_id;
     }
     void finish();
+
+    void set_boat_command_velocity(geometry_msgs::Twist data);
 
 public Q_SLOTS:
     void process();
@@ -43,28 +48,17 @@ private:
     //Тип топика
     topicType gnss_topic_type_;
 
-    //Подписчик на данные о глобальном положении
-    ros::Subscriber gnss_subscriber_;
-    //Подписчик на аккумулятор
-    ros::Subscriber battery_status_subscriber_;
     //Публикатор положения платформы виде маркера
-    ros::Publisher robot_model_publisher_;
+    ros::Publisher boat_command_velocity_publisher_;
 
+    geometry_msgs::Twist command_velocity;
 
     //Флаг разрешения на обработку
     bool is_allow_processing;
     //Флаг окончания обработки
     bool is_finished_processing;
     //Флаг наличия актуальных данных с gnss
-    bool is_actual_gnss;
-
-//    //Координаты платформы
-//    geographic_msgs::GeoPoint gnss_lonlat_pt;
-//    geodesy::UTMPoint gnss_utm_pt;
-
-//    //Ответчики
-//    void gnss_callback_odom(const nav_msgs::Odometry &data);
-//    void gnss_callback_navsat(const sensor_msgs::NavSatFix &data);
+    bool is_actual_command_velocity_data;
 };
 
 #endif // BOAT_SERVER_NODE_H

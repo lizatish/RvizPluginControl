@@ -8,16 +8,13 @@ DriveWidget::DriveWidget( QWidget* parent )
     : QWidget( parent )
     , linear_velocity_( 0 )
     , angular_velocity_( 0 )
-    , linear_scale_( 10 )
-    , angular_scale_( 2 )
+    , currentItemIndex ( NULL )
 {
     QGridLayout* manager_buttons_layout = new QGridLayout();
     QGridLayout* controls_layout = new QGridLayout();
     QGridLayout* boat_tree_layout = new QGridLayout();
     QGridLayout* stop_button_layout = new QGridLayout();
     QGridLayout* main_layout = new QGridLayout();
-
-    currentItemIndex = NULL;
 
     //******************** Кнопки изменения листа с лодочками
 
@@ -140,7 +137,6 @@ void DriveWidget::remove_button_on_clicked() {
     currentItemIndex = boat_list_widget_->currentIndex().row();
 
     if(currentItemIndex >= 0){
-//        boat_list_widget_->removeItemWidget(boat_list_widget_->currentItem(), currentItemIndex);
         delete boat_list_widget_->takeTopLevelItem(currentItemIndex);
         boat_list_for_widget_.removeAt(currentItemIndex);
         boat_list_.removeAt(currentItemIndex);
@@ -182,6 +178,7 @@ void DriveWidget::edit_boat_to_boat_list() {
 }
 
 void DriveWidget::add_boat_on_list() {
+
     //Объект параметров платформы
     Boat_parameters *boat_parameters_ = boat_list_.last();
 
@@ -195,46 +192,68 @@ void DriveWidget::add_boat_on_list() {
     boat_list_for_widget_.append(new_item);
     boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
 
-    //    //Запускаем узел
-    //    ugv_server_node *ros_node_ = new ugv_server_node();
-    //    //Передаём данные
-    //    ros_node_->setName(ugv_parameters_->getUGVname());
-    //    if(ugv_parameters_->getUGVtopicGNSStype() == 1)
-    //        ros_node_->setGNSSsubscriber(ugv_parameters_->getUGVtopicGNSSname(), ugv_server_node::nav_msgs_Odometry);
-    //    if(ugv_parameters_->getUGVtopicGNSStype() == 2)
-    //        ros_node_->setGNSSsubscriber(ugv_parameters_->getUGVtopicGNSSname(), ugv_server_node::sensor_msgs_NavSatFix);
+    //Запускаем узел
+    Boat_server_node *ros_node_ = new Boat_server_node();
+    //Передаём данные
+    ros_node_->setName(boat_parameters_->getBoatName());
+    if(boat_parameters_->getBoatTopicGNSStype() == 1)
+        ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
 
-    //    QThread *ros_node_thread_ = new QThread;
-    //    ros_node_->moveToThread(ros_node_thread_);
 
-    //    connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
-    //    ////    connect(LaserScanner, SIGNAL(scanReady()), this, SLOT(laserScanProcessing()));
-    //    ////    connect(this, SIGNAL(stopROS()), LaserScanner, SLOT(stop()));
-    //    ros_node_thread_->start();
-    //    ros_node_list_.append(ros_node_);
-    //    ros_node_thread_list_.append(ros_node_thread_);
+    QThread *ros_node_thread_ = new QThread;
+    ros_node_->moveToThread(ros_node_thread_);
+    connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
+
+    ros_node_thread_->start();
+    ros_node_list_.append(ros_node_);
+    ros_node_thread_list_.append(ros_node_thread_);
 }
 void DriveWidget::setLinearData( int linear_data )
 {
     linear_speed_label->setNum(linear_data);
     linear_velocity_ = linear_data;
-    Q_EMIT outputVelocity( linear_velocity_, angular_velocity_ );
     update();
 }
 void DriveWidget::setAngularData( int angular_data )
 {
     angular_speed_label->setNum(angular_data);
     angular_velocity_ = angular_data;
-    Q_EMIT outputVelocity( linear_velocity_, angular_velocity_ );
+
+    ros_node_list_.
     update();
 }
 
-void DriveWidget::stopBoat()
+void DriveWidget::save( rviz::Config config ) const
 {
-    linear_velocity_ = 0;
-    angular_velocity_ = 0;
-    Q_EMIT outputVelocity( linear_velocity_, angular_velocity_ );
-    update();
+    //    rviz::Panel::save( config );
+    //    config.mapSetValue( "Topic_objects", output_topic_objects_ );
+    //    config.mapSetValue( "Topic_path", output_topic_log_path );
+    //    config.mapSetValue( "Map_file_path", pathToMap );
+    //    config.mapSetValue( "Log_file_path", pathToLog );
+}
+
+// Load all configuration data for this panel from the given Config object.
+void DriveWidget::load( const rviz::Config& config )
+{
+    //    rviz::Panel::load( config );
+    //    QString topic_map_objects;
+    //    if(config.mapGetString( "Topic_objects", &topic_map_objects )) {
+    //        setTopic_objects(topic_map_objects);
+    //    }
+    //    QString topic_log;
+    //    if(config.mapGetString( "Topic_path", &topic_log )) {
+    //        setTopic_log_path(topic_log);
+    //    }
+
+    //    if( config.mapGetString( "Map_file_path", &pathToMap ))
+    //    {
+    //        this->loadMap();
+    //    }
+    //    if( config.mapGetString( "Log_file_path", &pathToLog ))
+    //    {
+    //        this->loadLog();
+    //    }
+
 }
 // END_TUTORIAL
 

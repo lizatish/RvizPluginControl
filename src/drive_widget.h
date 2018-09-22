@@ -1,30 +1,18 @@
-
 #ifndef DRIVE_WIDGET_H
 #define DRIVE_WIDGET_H
 
+#include <QThread>
 #include <QWidget>
 #include <QList>
-#include <stdio.h>
-#include <math.h>
 #include <QLineEdit>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QMouseEvent>
 #include <QSlider>
 #include <QTreeWidgetItem>
-#include <QWidget>
 #include <QSlider>
 #include <QLabel>
-#include <QGridLayout>
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QGridLayout>
-#include <QComboBox>
 #include <ros/console.h>
-#include <QMap>
-
-#include <iostream>
-using namespace std;
+#include <rviz/panel.h>
 
 #include "boat_parameters.h"
 #include "boat_server_node.h"
@@ -38,12 +26,17 @@ public:
     DriveWidget( QWidget* parent = 0 );
     ~DriveWidget();
 
-Q_SIGNALS:
-    void outputVelocity( float linear, float angular );
+    virtual void load( const rviz::Config& config );
+    virtual void save( rviz::Config config ) const;
 
 protected:
 
- int currentItemIndex;
+    //Объект узла
+    QList<Boat_server_node *> ros_node_list_;
+    //Поток узлов
+    QList<QThread *> ros_node_thread_list_;
+
+    int currentItemIndex;
     //Список лодочек
     QList<QTreeWidgetItem *> boat_list_for_widget_;
     QList<Boat_parameters *> boat_list_;
@@ -61,25 +54,19 @@ protected:
     // Finally the member variables:
     float linear_velocity_; // In m/s
     float angular_velocity_; // In radians/s
-    float linear_scale_; // In m/s
-    float angular_scale_; // In radians/s
 
-private Q_SLOTS:
+protected Q_SLOTS:
     void setLinearData( int linear_data);
     void setAngularData( int angular_data);
-    void stopBoat();
-protected Q_SLOTS:
 
     //Слот нажатия кнопки добавления объекта
     void add_button_on_clicked();
     void edit_button_on_clicked();
     void remove_button_on_clicked();
     void add_boat_on_list();
-//    void edit_boat_on_list(Boat_parameters*);
     void edit_boat_to_boat_list();
-
-
 };
+
 // END_TUTORIAL
 
 } // end namespace rviz_plugin_tutorials
