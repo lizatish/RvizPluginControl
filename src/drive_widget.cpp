@@ -156,13 +156,13 @@ void DriveWidget::edit_button_on_clicked() {
 
 void DriveWidget::edit_boat_to_boat_list() {
 
-    Boat_parameters* boat_parameters_ = (Boat_parameters*)qobject_cast<QWidget*>(sender());
+    Boat_parameters* edit_boat_parameters_ = (Boat_parameters*)qobject_cast<QWidget*>(sender());
     QTreeWidgetItem* edit_item = new QTreeWidgetItem();
 
     //Добавляем в виджет
-    edit_item->setText(0, boat_parameters_->getBoatName());
-    edit_item->setText(1, boat_parameters_->getBoatTopicGNSSname());
-    edit_item->setBackground(2, QBrush(boat_parameters_->getBoatColor()));
+    edit_item->setText(0, edit_boat_parameters_->getBoatName());
+    edit_item->setText(1, edit_boat_parameters_->getBoatTopicGNSSname());
+    edit_item->setBackground(2, QBrush(edit_boat_parameters_->getBoatColor()));
 
     boat_list_widget_->takeTopLevelItem(currentItemIndex);
     boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
@@ -204,6 +204,8 @@ void DriveWidget::setLinearData( int linear_data )
 {
     linear_speed_label->setNum(linear_data);
     linear_velocity_ = linear_data;
+
+    sendCommandVelocity();
     update();
 }
 void DriveWidget::setAngularData( int angular_data )
@@ -211,12 +213,26 @@ void DriveWidget::setAngularData( int angular_data )
     angular_speed_label->setNum(angular_data);
     angular_velocity_ = angular_data;
 
-    ros_node_list_.takeAt(currentItemIndex);
+    sendCommandVelocity();
     update();
+}
+void DriveWidget::sendCommandVelocity(){
+
+    geometry_msgs::Twist data;
+    data.linear.x = linear_velocity_;
+    data.angular.z = angular_velocity_;
+
+    Boat_server_node* boat_server_temp = ros_node_list_.takeAt(currentItemIndex);
+    ros_node_list_.append(boat_server_temp);
+    boat_server_temp->set_boat_command_velocity(data);
 }
 
 void DriveWidget::stopBoat(){
+    angular_velocity_ = 0;
+    linear_velocity_ = 0;
 
+    sendCommandVelocity();
+    update();
 }
 
 void DriveWidget::set_current_item(){

@@ -26,6 +26,8 @@ public:
     DriveWidget( QWidget* parent = 0 );
     ~DriveWidget();
 
+    void sendCommandVelocity();
+
     virtual void load( const rviz::Config& config );
     virtual void save( rviz::Config config ) const;
 
