@@ -29,7 +29,7 @@ public:
     QString getBoatName();
     QString getBoatTopicGNSSname();
     int getBoatTopicGNSStype();
-    int getBoatColour() const;
+    QColor getBoatColor() const;
 
     void setParametrsFromItem(QTreeWidgetItem* init_item);
 
@@ -43,10 +43,11 @@ private:
     //Имя топика
     QString boat_gnss_topic_name;
     //Цвет лодки
-    int boat_colour;
+    QColor boat_color;
 
     //Флаг, что параметры установлены
     bool is_parameters_setted;
+    void setColorOnButton(QColor color);
 
 protected:
     void accept();
@@ -54,7 +55,7 @@ protected:
 Q_SIGNALS:
     void editionFinished();
 private Q_SLOTS:
-    void on_boat_colour_button_clicked();
+    void on_boat_color_button_clicked();
 };
 
 #endif // BOAT_PARAMETERS_H

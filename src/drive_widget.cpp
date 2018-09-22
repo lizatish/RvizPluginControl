@@ -168,33 +168,8 @@ void DriveWidget::edit_boat_on_list() {
 
     //Добавляем в виджет
     edit_item->setText(0, boat_parameters_->getBoatName());
-    QString topic_type = boat_parameters_->getBoatTopicGNSSname();
-    edit_item->setText(1, topic_type);
-
-    int boat_colour = boat_parameters_->getBoatColour();
-    switch(boat_colour){
-    case 1:
-        edit_item->setBackground(2, Qt::red);
-        break;
-    case 2:
-        edit_item->setBackground(2, Qt::green);
-        break;
-    case 3:
-        edit_item->setBackground(2, Qt::blue);
-        break;
-    case 4:
-        edit_item->setBackground(2, Qt::yellow);
-        break;
-    case 5:
-        edit_item->setBackground(2, Qt::black);
-        break;
-    case 6:
-        edit_item->setBackground(2, Qt::cyan);
-        break;
-    case 7:
-        edit_item->setBackground(2, Qt::magenta);
-        break;
-    }
+    edit_item->setText(1, boat_parameters_->getBoatTopicGNSSname());
+    edit_item->setBackground(2, QBrush(boat_parameters_->getBoatColor()));
 
     boat_list_widget_->takeTopLevelItem(currentItemIndex);
     boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
@@ -206,35 +181,10 @@ void DriveWidget::add_boat_on_list() {
 
     //Добавляем в виджет
     QTreeWidgetItem *new_item = new QTreeWidgetItem();
-    new_item->setText(0, boat_parameters_->getBoatName());
-    QString topic_type = boat_parameters_->getBoatTopicGNSSname();
-    new_item->setText(1, topic_type);
 
-    int boat_colour = boat_parameters_->getBoatColour();
-    ROS_INFO("!!!!!!!!!! %d", boat_colour);
-    switch(boat_colour){
-    case 1:
-        new_item->setBackground(2, Qt::red);
-        break;
-    case 2:
-        new_item->setBackground(2, Qt::green);
-        break;
-    case 3:
-        new_item->setBackground(2, Qt::blue);
-        break;
-    case 4:
-        new_item->setBackground(2, Qt::yellow);
-        break;
-    case 5:
-        new_item->setBackground(2, Qt::black);
-        break;
-    case 6:
-        new_item->setBackground(2, Qt::cyan);
-        break;
-    case 7:
-        new_item->setBackground(2, Qt::magenta);
-        break;
-    }
+    new_item->setText(0, boat_parameters_->getBoatName());
+    new_item->setText(1, boat_parameters_->getBoatTopicGNSSname());
+    new_item->setBackground(2, QBrush(boat_parameters_->getBoatColor()));
 
     boat_list_for_widget_.append(new_item);
     boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
