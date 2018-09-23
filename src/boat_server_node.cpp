@@ -10,9 +10,15 @@ Boat_server_node::Boat_server_node()
 
 void Boat_server_node::finish() {
     is_allow_processing = false;
-    while(!is_finished_processing) {
-        usleep(50);
-    }
+
+    command_velocity.linear.x = 0;
+    command_velocity.angular.z = 0;
+    boat_command_velocity_publisher_.publish(command_velocity);
+    ros::spinOnce();
+
+    //    while(!is_finished_processing) {
+    //        usleep(50);
+    //    }
 }
 
 void Boat_server_node::process() {
@@ -26,18 +32,16 @@ void Boat_server_node::process() {
     if(gnss_topic_type_ == 1)
         boat_command_velocity_publisher_ = n.advertise<geometry_msgs::Twist>( gnss_topic_name_.toStdString(), 10 );
 
+    ros::Rate rate(100);
     while(is_allow_processing && ros::ok()) {
-        if(is_actual_command_velocity_data) {
-            is_actual_command_velocity_data = false;
 
-            cout<<"Message actual"<<endl;
-            boat_command_velocity_publisher_.publish(command_velocity);
-        }
+        cout<<"Message actual: lin " << command_velocity.linear.x << " ang "
+           << command_velocity.angular.z <<endl;
 
-        usleep(50);
+        boat_command_velocity_publisher_.publish(command_velocity);
         ros::spinOnce();
+        rate.sleep();
     }
-    is_finished_processing = true;
 }
 void Boat_server_node::set_boat_command_velocity(geometry_msgs::Twist data){
     command_velocity.linear.x = data.linear.x;

@@ -49,6 +49,9 @@ protected:
     // Слайдеры для управления скоростями
     QLabel* angular_speed_label;
     QLabel* linear_speed_label;
+    QSlider* linear_slider;
+    QSlider* angular_slider;
+
 
     // Кнопки управления списком лодочек
     QPushButton* add_button;
@@ -56,6 +59,8 @@ protected:
     // Finally the member variables:
     float linear_velocity_; // In m/s
     float angular_velocity_; // In radians/s
+
+    bool check_boat_list_widget_new_item_values(QTreeWidgetItem*);
 
 protected Q_SLOTS:
     void setLinearData( int linear_data);

@@ -8,7 +8,7 @@ DriveWidget::DriveWidget( QWidget* parent )
     : QWidget( parent )
     , linear_velocity_( 0 )
     , angular_velocity_( 0 )
-    , currentItemIndex ( NULL )
+    , currentItemIndex ( -1 )
 {
     QGridLayout* manager_buttons_layout = new QGridLayout();
     QGridLayout* controls_layout = new QGridLayout();
@@ -54,9 +54,9 @@ DriveWidget::DriveWidget( QWidget* parent )
 
     // Имя слайдеров
     QLabel* linear_label = new QLabel( "Linear" );
-    QSlider* linear_slider = new QSlider( Qt::Vertical );
+    linear_slider = new QSlider( Qt::Vertical );
     QLabel* angular_label = new QLabel( "Angular" );
-    QSlider* angular_slider = new QSlider( Qt::Horizontal );
+    angular_slider = new QSlider( Qt::Horizontal );
 
     // Предельные значения линейного слайдера
     linear_slider->setMinimum( -50 );
@@ -181,24 +181,29 @@ void DriveWidget::add_boat_on_list() {
     new_item->setText(1, boat_parameters_->getBoatTopicGNSSname());
     new_item->setBackground(2, QBrush(boat_parameters_->getBoatColor()));
 
-    boat_list_for_widget_.append(new_item);
-    boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
+    if(check_boat_list_widget_new_item_values(new_item)){
+        boat_list_for_widget_.append(new_item);
+        boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
 
-    //Запускаем узел
-    Boat_server_node *ros_node_ = new Boat_server_node();
-    //Передаём данные
-    ros_node_->setName(boat_parameters_->getBoatName());
-    if(boat_parameters_->getBoatTopicGNSStype() == 1)
-        ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
+        //Запускаем узел
+        Boat_server_node *ros_node_ = new Boat_server_node();
+        //Передаём данные
+        ros_node_->setName(boat_parameters_->getBoatName());
+        if(boat_parameters_->getBoatTopicGNSStype() == 1)
+            ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
 
 
-    QThread *ros_node_thread_ = new QThread;
-    ros_node_->moveToThread(ros_node_thread_);
-    connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
+        QThread *ros_node_thread_ = new QThread;
+        ros_node_->moveToThread(ros_node_thread_);
+        connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
 
-    ros_node_thread_->start();
-    ros_node_list_.append(ros_node_);
-    ros_node_thread_list_.append(ros_node_thread_);
+        ros_node_thread_->start();
+        ros_node_list_.append(ros_node_);
+        ros_node_thread_list_.append(ros_node_thread_);
+    }
+    else{
+        cout << "Creation new boat failed" << endl;
+    }
 }
 void DriveWidget::setLinearData( int linear_data )
 {
@@ -218,18 +223,27 @@ void DriveWidget::setAngularData( int angular_data )
 }
 void DriveWidget::sendCommandVelocity(){
 
-    geometry_msgs::Twist data;
-    data.linear.x = linear_velocity_;
-    data.angular.z = angular_velocity_;
+    ROS_INFO("%d", currentItemIndex);
+    if(currentItemIndex >= 0){
+        geometry_msgs::Twist data;
+        data.linear.x = linear_velocity_;
+        data.angular.z = angular_velocity_;
 
-    Boat_server_node* boat_server_temp = ros_node_list_.takeAt(currentItemIndex);
-    ros_node_list_.append(boat_server_temp);
-    boat_server_temp->set_boat_command_velocity(data);
+        Boat_server_node* boat_server_temp = ros_node_list_.takeAt(currentItemIndex);
+        ros_node_list_.append(boat_server_temp);
+        boat_server_temp->set_boat_command_velocity(data);
+    }
 }
 
 void DriveWidget::stopBoat(){
     angular_velocity_ = 0;
     linear_velocity_ = 0;
+
+    angular_speed_label->setNum(angular_velocity_);
+    linear_speed_label->setNum(linear_velocity_);
+
+    linear_slider->setSliderPosition(0);
+    angular_slider->setSliderPosition(0);
 
     sendCommandVelocity();
     update();
@@ -237,6 +251,26 @@ void DriveWidget::stopBoat(){
 
 void DriveWidget::set_current_item(){
     currentItemIndex = boat_list_widget_->currentIndex().row();
+}
+
+bool DriveWidget::check_boat_list_widget_new_item_values(QTreeWidgetItem* new_item){
+    QString boat_name = new_item->text(0);
+    QString gnss_topic_name = new_item->text(1);
+
+    if(boat_name.size() == 0)
+        return false;
+
+    for(int i = 0; i < boat_name.size(); i++){
+        if(!(boat_name[i] == '1' || '2' || '3' || '4'
+             || '5' || '6' || '7' || '8' || '9' || '0')){
+            return false;
+        }
+    }
+
+    if(gnss_topic_name[0] == '/' && gnss_topic_name.size() >= 2)
+        return true;
+    else
+        return false;
 }
 
 void DriveWidget::save( rviz::Config config ) const
