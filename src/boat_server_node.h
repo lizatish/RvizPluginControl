@@ -18,6 +18,7 @@ class Boat_server_node : public QObject
     Q_OBJECT
 public:
     Boat_server_node();
+    ~Boat_server_node();
 
     enum topicType {
         geometry_msgs_Twist = 1,

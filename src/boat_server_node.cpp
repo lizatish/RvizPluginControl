@@ -8,6 +8,18 @@ Boat_server_node::Boat_server_node()
     is_actual_command_velocity_data = false;
 }
 
+Boat_server_node::~Boat_server_node() {
+    is_allow_processing = false;
+
+    command_velocity.linear.x = 0;
+    command_velocity.angular.z = 0;
+    boat_command_velocity_publisher_.publish(command_velocity);
+    ros::spinOnce();
+
+    //    while(!is_finished_processing) {
+    //        usleep(50);
+    //    }
+}
 void Boat_server_node::finish() {
     is_allow_processing = false;
 
