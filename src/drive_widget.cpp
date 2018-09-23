@@ -164,9 +164,16 @@ void DriveWidget::edit_boat_to_boat_list() {
     edit_item->setText(1, edit_boat_parameters_->getBoatTopicGNSSname());
     edit_item->setBackground(2, QBrush(edit_boat_parameters_->getBoatColor()));
 
-    boat_list_widget_->takeTopLevelItem(currentItemIndex);
-    boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
-    boat_list_widget_->setCurrentItem(boat_list_widget_->topLevelItem(currentItemIndex));
+    if(check_boat_list_widget_new_item_values(edit_item)){
+
+        boat_list_widget_->takeTopLevelItem(currentItemIndex);
+        boat_list_widget_->insertTopLevelItem(currentItemIndex, edit_item);
+        boat_list_widget_->setCurrentItem(boat_list_widget_->topLevelItem(currentItemIndex));
+    }
+    else{
+        cout << "Changing boat parameters failed" << endl;
+    }
+
 }
 
 void DriveWidget::add_boat_on_list() {
@@ -185,24 +192,25 @@ void DriveWidget::add_boat_on_list() {
         boat_list_for_widget_.append(new_item);
         boat_list_widget_->insertTopLevelItems(0, boat_list_for_widget_);
 
-        //Запускаем узел
-        Boat_server_node *ros_node_ = new Boat_server_node();
-        //Передаём данные
-        ros_node_->setName(boat_parameters_->getBoatName());
-        if(boat_parameters_->getBoatTopicGNSStype() == 1)
-            ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
+        creating_ros_node(boat_parameters_);
+        //        //Запускаем узел
+        //        Boat_server_node *ros_node_ = new Boat_server_node();
+        //        //Передаём данные
+        //        ros_node_->setName(boat_parameters_->getBoatName());
+        //        if(boat_parameters_->getBoatTopicGNSStype() == 1)
+        //            ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
 
 
-        QThread *ros_node_thread_ = new QThread;
-        ros_node_->moveToThread(ros_node_thread_);
-        connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
+        //        QThread *ros_node_thread_ = new QThread;
+        //        ros_node_->moveToThread(ros_node_thread_);
+        //        connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
 
-        ros_node_thread_->start();
-        ros_node_list_.append(ros_node_);
-        ros_node_thread_list_.append(ros_node_thread_);
+        //        ros_node_thread_->start();
+        //        ros_node_list_.append(ros_node_);
+        //        ros_node_thread_list_.append(ros_node_thread_);
     }
     else{
-        cout << "Creation new boat failed" << endl;
+        cout << "Creation new boat parameters failed" << endl;
     }
 }
 void DriveWidget::setLinearData( int linear_data )
@@ -271,6 +279,23 @@ bool DriveWidget::check_boat_list_widget_new_item_values(QTreeWidgetItem* new_it
         return true;
     else
         return false;
+}
+
+void DriveWidget::creating_ros_node(Boat_parameters *boat_parameters_){
+    //Запускаем узел
+    Boat_server_node *ros_node_ = new Boat_server_node();
+    //Передаём данные
+    ros_node_->setName(boat_parameters_->getBoatName());
+    if(boat_parameters_->getBoatTopicGNSStype() == 1)
+        ros_node_->setGNSSpublisher(boat_parameters_->getBoatTopicGNSSname(), Boat_server_node::geometry_msgs_Twist);
+
+    QThread *ros_node_thread_ = new QThread;
+    ros_node_->moveToThread(ros_node_thread_);
+    connect(ros_node_thread_, SIGNAL(started()), ros_node_, SLOT(process()));
+
+    ros_node_thread_->start();
+    ros_node_list_.append(ros_node_);
+    ros_node_thread_list_.append(ros_node_thread_);
 }
 
 void DriveWidget::save( rviz::Config config ) const

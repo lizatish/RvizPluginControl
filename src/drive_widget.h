@@ -61,6 +61,7 @@ protected:
     float angular_velocity_; // In radians/s
 
     bool check_boat_list_widget_new_item_values(QTreeWidgetItem*);
+    void creating_ros_node(Boat_parameters *boat_parameters);
 
 protected Q_SLOTS:
     void setLinearData( int linear_data);
